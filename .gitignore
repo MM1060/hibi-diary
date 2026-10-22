@@ -1,0 +1,9 @@
+Warning: fs was declared with const; use let for reassignable variables.
+.dev.vars
+.env
+.env.*
+!.env.example
+node_modules/
+.wrangler/
+.DS_Store
+Thumbs.db
