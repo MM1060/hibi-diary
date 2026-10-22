@@ -1,2 +1,34 @@
-# hibi-diary
-日々の体調と気持ちを記録するiPhone向け日記PWA
+Warning: fs was declared with const; use let for reassignable variables.
+# 日日 (Hibi)
+
+iPhoneを含むスマートフォン向けの日記・体調記録アプリです。ブラウザーで動くPWAとして構成し、Cloudflare Workersへ配置できる下地を用意しています。
+
+## できること
+
+- 午前・午後の体調を5段階で記録
+- 1000文字までの日記を記録し、日付ごとに確認
+- 週・月の記録を表示し、JSONで書き出し
+- 記録日数に応じてホームの庭の背景が成長
+- カルーセル、ボトムナビ、アニメーション、動きを減らすOS設定への配慮
+- オフライン時の静的画面キャッシュ
+- Cloudflare Workers AIによる日記の振り返り問い
+
+## 技術選定
+
+- **HTML/CSS/JavaScript**: 画面数が少ない日記アプリを軽く起動し、追加依存なしでiPhoneのWebアプリとして使うため。iOSネイティブのSwiftアプリではなく、ホーム画面に追加できるPWAです。
+- **Cloudflare Workers + Workers AI**: 振り返り生成のサーバー処理を同じCloudflare環境に置くため。AI機能に外部APIキーを使いません。
+- **Cloudflare D1**: 将来、認証済みユーザーの日記を複数端末間で同期するためのSQLスキーマを用意しました。現状の画面は端末内のlocalStorageを使用します。
+- **Google OAuth**: 要件に合わせる認証方式ですが、Google CloudのクライアントID/シークレットとセッション検証が必要です。未設定の状態で形だけのログインを付けないよう、現時点では認証・同期を有効化していません。
+
+## ローカル表示
+
+静的ファイルをHTTPサーバーで配信して`index.html`を開きます。Cloudflare連携なしでも日記と体調記録は同じブラウザー内に保存されます。
+
+## Cloudflareへの配置
+
+1. CloudflareでWorkersアプリとD1データベースを作成します。
+2. `wrangler.jsonc`のD1 ID、Google OAuthのクライアントID、アプリの公開URLを設定します。
+3. Google OAuthコールバックとセキュアなサーバー側セッション検証を実装し、日記APIにユーザー認証を必須化します。
+4. D1マイグレーションを適用し、Workers AIとWorkers Assetsを有効にしてデプロイします。
+
+Cloudflare/Googleのアカウント設定がこのワークスペースにないため、公開やGoogleログインの実接続は未完了です。認証実装前に日記本文をサーバーへ送信しません。Workers AIへ送るのは、ユーザーが振り返りボタンを押したときの直近最大7件の本文だけです。
