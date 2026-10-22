@@ -1,2 +1,1 @@
-Warning: fs was declared with const; use let for reassignable variables.
 const C='hibi-v1';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['/','/manifest.json']))));self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).pathname.startsWith('/api/'))return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(x=>{if(x.ok){let c=x.clone();caches.open(C).then(cache=>cache.put(e.request,c))}return x}).catch(()=>caches.match('/'))))});
