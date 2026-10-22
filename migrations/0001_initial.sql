@@ -1,4 +1,3 @@
-Warning: fs was declared with const; use let for reassignable variables.
 CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, google_sub TEXT NOT NULL UNIQUE, email TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS entries (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE, entry_date TEXT NOT NULL, morning_mood INTEGER, afternoon_mood INTEGER, journal_text TEXT NOT NULL DEFAULT '', updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id, entry_date));
 CREATE INDEX IF NOT EXISTS entries_user_date ON entries(user_id, entry_date DESC);
