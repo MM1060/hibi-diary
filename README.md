@@ -1,4 +1,3 @@
-Warning: fs was declared with const; use let for reassignable variables.
 # 日日 (Hibi)
 
 iPhoneを含むスマートフォン向けの日記・体調記録アプリです。ブラウザーで動くPWAとして構成し、Cloudflare Workersへ配置できる下地を用意しています。
